@@ -1,5 +1,6 @@
 import pyaudio
 import wave
+from pydub import AudioSegment
 
 form_1 = pyaudio.paInt16 # 16-bit resolution
 chans = 1 # 1 channel
