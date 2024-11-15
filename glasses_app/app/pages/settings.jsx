@@ -1,8 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
-const Music = ({ setCurrentPage }) => {
-
+const Settings = () => {
   return (
     <View style={styles.container}>
       <View style={styles.buttonBox}>
@@ -11,25 +10,11 @@ const Music = ({ setCurrentPage }) => {
 		</TouchableOpacity>
       </View>
       <View>
-		<Text style={styles.title}>Music Page</Text>
+		<Text style={styles.title}>Settings</Text>
 		<TouchableOpacity onPress={() => console.log("test")} style={styles.connectButton}>
 		  <Text style={styles.connectLabel}>Connect Now!</Text>
 		</TouchableOpacity>
       </View>
-      <View style={{...styles.buttonBox, flexDirection: "row"}}>
-		<TouchableOpacity style={styles.footerIcon} onPress={() => setCurrentPage('home')}>
-			<Feather name='home' style={styles.featherButton}/>
-		</TouchableOpacity>
-		<TouchableOpacity style={styles.footerIcon} onPress={() => setCurrentPage('music')}>
-			<Feather name='music' style={styles.featherButton}/>
-		</TouchableOpacity>
-		<TouchableOpacity style={styles.footerIcon} onPress={() => setCurrentPage('music')}>
-			<Feather name='rotate-ccw' style={styles.featherButton}/>
-		</TouchableOpacity>
-		<TouchableOpacity style={styles.footerIcon} onPress={() => setCurrentPage('music')}>
-			<Feather name='settings' style={styles.featherButton}/>
-		</TouchableOpacity>
-	  </View>
     </View>
   );
 }
@@ -97,16 +82,7 @@ const styles = StyleSheet.create({
 	margin: "auto"
   },
 
-  footerIcon: {
-	flexGrow: 1,
-	alignItems: "center",
-	justifyContent: "center",
-	height: 65,
-	borderWidth: 3,
-	borderRadius: 5,
-	borderColor: "dimgrey",
-	backgroundColor: "darkgrey",
-  },
+
 });
 
-export default Music
+export default Settings
