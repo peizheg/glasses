@@ -5,16 +5,11 @@ const History = () => {
   return (
     <View style={styles.container}>
       <View style={styles.buttonBox}>
-		<TouchableOpacity onPress={() => console.log("test")} style={styles.bluetooth}>
-		  <Feather name='bluetooth' style={styles.featherButton}/>
-		</TouchableOpacity>
+        <TouchableOpacity onPress={() => console.log("test")} style={styles.bluetooth}>
+          <Feather name='bluetooth' style={styles.featherButton}/>
+        </TouchableOpacity>
       </View>
-      <View>
-		<Text style={styles.title}>History</Text>
-		<TouchableOpacity onPress={() => console.log("test")} style={styles.connectButton}>
-		  <Text style={styles.connectLabel}>Connect Now!</Text>
-		</TouchableOpacity>
-      </View>
+      <Text style={styles.title}>History</Text>
     </View>
   );
 }
@@ -63,26 +58,10 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 64,
-	color: "white",
+    color: "white",
     fontWeight: "bold",
-	marginBottom: 40,
+    marginBottom: 500,
   },
-
-  connectButton: {
-	width: 200,
-	height: 40,
-	backgroundColor: "white",
-    color: "#38434D",
-	marginHorizontal: "auto",
-	marginBottom: 100,
-  },
-
-  connectLabel: {
-	fontSize: 20,
-	margin: "auto"
-  },
-
-
 });
 
 export default History

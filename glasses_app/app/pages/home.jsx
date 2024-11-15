@@ -17,10 +17,7 @@ const Home = ({ setCurrentPage }) => {
   }
 
   const listen = () => {
-    setTimeout(() => {
-      alert("Song found: Stick Season")
-      setCurrentPage("music")
-    }, 1000);
+    setCurrentPage("music")
   }
 
   return (
@@ -33,18 +30,21 @@ const Home = ({ setCurrentPage }) => {
       <View>
         {
           connectedDevice ? (
-            <>
-              <Text style={styles.connectMessage}>Connected to: {"\n" + connectedDevice.name}</Text>
-              <View style={styles.connectedbuttons}>
-                <TouchableOpacity onPress={disconnect} style={styles.connectedButton}>
-                  <Text style={styles.connectLabel}>Disconnect</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={listen} style={styles.connectedButton}>
-                  <Text style={styles.connectLabel}>Start Listening</Text>
-                </TouchableOpacity>
-              </View>
-
-            </>
+            (connectedDevice.name ? (
+              <>
+                <Text style={styles.connectMessage}>Connected to: {"\n" + connectedDevice.name}</Text>
+                <View style={styles.connectedbuttons}>
+                  <TouchableOpacity onPress={disconnect} style={styles.connectedButton}>
+                    <Text style={styles.connectLabel}>Disconnect</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={listen} style={styles.connectedButton}>
+                    <Text style={styles.connectLabel}>Start Listening</Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            ) : (
+              <Text style={styles.connectingMessage}>Connecting...</Text>
+            ))
           ) : (
             <>
               <Text style={styles.title}>{connectedDevice ? connectedDevice : "No devices paired :("}</Text>
@@ -54,7 +54,6 @@ const Home = ({ setCurrentPage }) => {
             </>
           )
         }
-
       </View>
     </View>
   );
@@ -114,6 +113,13 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     marginBottom: 40,
+  },
+
+  connectingMessage: {
+    fontSize: 48,
+    color: "white",
+    fontWeight: "bold",
+    marginBottom: 400,
   },
 
   connectButton: {
