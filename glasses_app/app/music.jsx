@@ -1,13 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import {
-	ParamListBase,
-	useNavigation,
-  } from '@react-navigation/native';
-  import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-
-const Music = ({navigation}: {navigation: any}) => {
+const Music = ({ setCurrentPage }) => {
 
   return (
     <View style={styles.container}>
@@ -23,16 +17,16 @@ const Music = ({navigation}: {navigation: any}) => {
 		</TouchableOpacity>
       </View>
       <View style={{...styles.buttonBox, flexDirection: "row"}}>
-		<TouchableOpacity style={styles.footerIcon} onPress={() => navigation.navigate('home')}>
+		<TouchableOpacity style={styles.footerIcon} onPress={() => setCurrentPage('home')}>
 			<Feather name='home' style={styles.featherButton}/>
 		</TouchableOpacity>
-		<TouchableOpacity style={styles.footerIcon} onPress={() => navigation.navigate('music')}>
+		<TouchableOpacity style={styles.footerIcon} onPress={() => setCurrentPage('music')}>
 			<Feather name='music' style={styles.featherButton}/>
 		</TouchableOpacity>
-		<TouchableOpacity style={styles.footerIcon} onPress={() => navigation.navigate('music')}>
+		<TouchableOpacity style={styles.footerIcon} onPress={() => setCurrentPage('music')}>
 			<Feather name='rotate-ccw' style={styles.featherButton}/>
 		</TouchableOpacity>
-		<TouchableOpacity style={styles.footerIcon} onPress={() => navigation.navigate('music')}>
+		<TouchableOpacity style={styles.footerIcon} onPress={() => setCurrentPage('music')}>
 			<Feather name='settings' style={styles.featherButton}/>
 		</TouchableOpacity>
 	  </View>
