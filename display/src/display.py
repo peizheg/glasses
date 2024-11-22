@@ -30,11 +30,12 @@ try:
     
     fp = open("song.txt")
     for words in fp:
+        image = Image.new('1', (disp.width, disp.height), "WHITE")
+        draw = ImageDraw.Draw(image)
+
         line = ""
-        for word in words:
+        for word in words.split():
             if len(line + word) >= 20:
-                image = Image.new('1', (disp.width, disp.height), "WHITE")
-                draw = ImageDraw.Draw(image)
                 draw.text((20, 0), line, font=font, fill=0)
                 line = ""
 
