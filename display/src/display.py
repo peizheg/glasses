@@ -32,12 +32,14 @@ try:
     for words in fp:
         image = Image.new('1', (disp.width, disp.height), "WHITE")
         draw = ImageDraw.Draw(image)
+        line_count = 0
 
         line = ""
         for word in words.split():
             if len(line + word) >= 20:
-                draw.text((20, 0), line, font=font, fill=0)
+                draw.text((20, 0 * line_count), line, font=font, fill=0)
                 line = ""
+                line_count += 1
 
             line += f"{word} "
 
