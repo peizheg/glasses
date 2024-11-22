@@ -3,30 +3,10 @@ import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
 
 const Home = ({ setCurrentPage }) => {
-  const [connectedDevice, setConnectedDevice] = useState(null);
-
-  const attemptConnect = () => {
-    setConnectedDevice({})
-    setTimeout(() => {
-      setConnectedDevice({name: "ras-personal"});
-    }, 1000);
-  }
-
-  const disconnect = () => {
-    setConnectedDevice(null)
-  }
-
-  const listen = () => {
-    setCurrentPage("music")
-  }
-
+  [connectedDevice, setConnectedDevice] = useState(null);
   return (
     <View style={styles.container}>
-      <View style={styles.buttonBox}>
-        <TouchableOpacity onPress={() => console.log("test")} style={styles.bluetooth}>
-          <Feather name='bluetooth' style={styles.featherButton}/>
-        </TouchableOpacity>
-      </View>
+      <Text style={{...styles.title, fontFamily: "Didot", paddingTop: 25,}}>GLASSES</Text>
       <View>
         {
           connectedDevice ? (
@@ -34,10 +14,10 @@ const Home = ({ setCurrentPage }) => {
               <>
                 <Text style={styles.connectMessage}>Connected to: {"\n" + connectedDevice.name}</Text>
                 <View style={styles.connectedbuttons}>
-                  <TouchableOpacity onPress={disconnect} style={styles.connectedButton}>
+                  <TouchableOpacity style={styles.connectedButton}>
                     <Text style={styles.connectLabel}>Disconnect</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={listen} style={styles.connectedButton}>
+                  <TouchableOpacity style={styles.connectedButton}>
                     <Text style={styles.connectLabel}>Start Listening</Text>
                   </TouchableOpacity>
                 </View>
@@ -46,12 +26,12 @@ const Home = ({ setCurrentPage }) => {
               <Text style={styles.connectingMessage}>Connecting...</Text>
             ))
           ) : (
-            <>
-              <Text style={styles.title}>{connectedDevice ? connectedDevice : "No devices paired :("}</Text>
-              <TouchableOpacity onPress={attemptConnect} style={styles.connectButton}>
+            <View style={{flex: 1, alignItems: "center", justifyContent: "center", marginBottom: 60}}>
+              <Text style={styles.largeText}>{connectedDevice ? connectedDevice : "No devices paired :("}</Text>
+              <TouchableOpacity style={styles.connectButton}>
                 <Text style={styles.connectLabel}>Connect Now!</Text>
               </TouchableOpacity>
-            </>
+            </View>
           )
         }
       </View>
@@ -66,7 +46,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     padding: 36,
-    backgroundColor: "rgb(48, 41, 42)"
+    backgroundColor: "#262626"
   },
 
   buttonBox: {
@@ -88,7 +68,7 @@ const styles = StyleSheet.create({
   },
 
   featherButton: {
-	fontSize: 25,
+	  fontSize: 25,
   },
 
   main: {
@@ -103,9 +83,19 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 64,
-    color: "white",
-    fontWeight: "bold",
-    marginBottom: 40,
+    color: "#ACBFA4",
+    fontWeight: "normal",
+    marginBottom: 30,
+    paddingBottom: 15,
+    borderBottomWidth: 1,
+    borderColor: "#ACBFA4",
+  },
+
+  largeText: {
+    fontSize: 60,
+    color: "#ACBFA4",
+    fontWeight: "normal",
+    marginBottom: 30,
   },
 
   connectMessage: {
