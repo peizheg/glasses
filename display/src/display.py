@@ -36,14 +36,14 @@ try:
 
         line = ""
         for word in words.split():
-            if len(line + word) >= 20:
-                draw.text((20, 0 * line_count), line, font=font, fill=0)
+            if len(line + word) >= 18:
+                draw.text((20, 20 * line_count), line, font=font, fill=0)
                 line = ""
                 line_count += 1
 
             line += f"{word} "
 
-        draw.text((20, 0 * line_count), line, font=font, fill=0)
+        draw.text((20, 20 * line_count), line, font=font, fill=0)
 
         disp.ShowImage(disp.getbuffer(image))
         time.sleep(2)
