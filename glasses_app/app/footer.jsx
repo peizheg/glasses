@@ -26,10 +26,8 @@ const styles = StyleSheet.create({
         bottom: 0,
         width: "100%",
         alignItems: "stretch",
-
         paddingBottom: 10,
         backgroundColor: "dimgrey",
-
     },
 
     footerIcon: {

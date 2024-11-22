@@ -7,12 +7,14 @@ import History from './pages/history'
 import Settings from './pages/settings'
 
 import Footer from './footer';
+import Header from './header';
 
 const App = () => {
 	const [currentPage, setCurrentPage] = useState("home")
 
 	return (
 		<>
+			<Header />
 			{currentPage == "home" ? <Home setCurrentPage={setCurrentPage} /> : null}
 			{currentPage == "music" ? <Music /> : null}
 			{currentPage == "history" ? <History /> : null}
