@@ -26,17 +26,16 @@ try:
     disp.clear()
 
     # Create blank image for drawing.
-    font1 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
-    font2 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
-
-
+    font = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 12)
+    
     fp = open("song.txt")
     for line in fp:
         image = Image.new('1', (disp.width, disp.height), "WHITE")
         draw = ImageDraw.Draw(image)
-        draw.text((20, 0), line[:20], font=font1, fill=0)
-        draw.text((20, 20), line[20:], font=font1, fill=0)
-        disp.ShowImage(disp.getbuffer(image))
+        draw.text((20, 0), line[:20], font=font, fill=0)
+        draw.text((20, 16), line[20:40], font=font, fill=0)
+        draw.text((20, 32), line[40:], font=font, fill=0)
+	disp.ShowImage(disp.getbuffer(image))
         time.sleep(2)
 
     disp.clear()
