@@ -1,23 +1,20 @@
-import { View } from "react-native"
-
-import { StyleSheet } from "react-native"
+import { View, StyleSheet } from "react-native"
 
 const Header = () => {
     return (
-        <View>
-            hi
+        <View style={styles.header}>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    buttonBox: {
+    header: {
         position: "absolute",
-        bottom: 0,
+        top: 0,
         width: "100%",
+        height: 100,
         alignItems: "stretch",
-        paddingBottom: 10,
-        backgroundColor: "dimgrey",
+        backgroundColor: "#262626",
     },
 })
 
