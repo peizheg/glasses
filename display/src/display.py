@@ -26,7 +26,7 @@ try:
     disp.clear()
 
     # Create blank image for drawing.
-    font1 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 18)
+    font1 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
     font2 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
 
 
@@ -34,7 +34,8 @@ try:
     for line in fp:
         image = Image.new('1', (disp.width, disp.height), "WHITE")
         draw = ImageDraw.Draw(image)
-        draw.text((20, 0), line, font=font1, fill=0)
+        draw.text((20, 0), line[:20], font=font1, fill=0)
+        draw.text((20, 20), line[20:], font=font1, fill=0)
         disp.ShowImage(disp.getbuffer(image))
         time.sleep(2)
 
