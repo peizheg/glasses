@@ -12,6 +12,10 @@ const sessionSchema = new mongoose.Schema({
     lyrics: {
         type: String,
         required: true,
+    },
+    listening: {
+        type: Boolean,
+        required: true,
     }
 })
 
