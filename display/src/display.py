@@ -43,6 +43,8 @@ try:
 
             line += f"{word} "
 
+        draw.text((20, 0 * line_count), line, font=font, fill=0)
+
         disp.ShowImage(disp.getbuffer(image))
         time.sleep(2)
     disp.clear()
