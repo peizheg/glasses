@@ -2,20 +2,19 @@ import { StyleSheet, Text, TouchableOpacity, View, FlatList } from "react-native
 import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from 'expo-linear-gradient'
 import { useEffect, useState } from "react";
+import glassesServices from "../services/glasses";
 
 const Music = () => {
 	const [song, setSong] = useState({});
 	const [line, setLine] = useState(0);
 	useEffect(() => {
-		setTimeout(() => {
-			setSong({
-				title: "Jar of Hearts",
-				lyrics: "We fought, we chained\nour hearts in vain\nWe jumped, never asking why.\nWe kissed, I fell under your spell\nof love\nNo one could deny.\n".repeat(5),
-				artist: "Christina Perri",
-			})
-		}, 2000)
+		const getSong = async () => {
+			const songResponse = await glassesServices.get_song()
+			setSong({ ...songResponse })
+		}
+		getSong()
 	}, [])
-	
+
 	return (
 		<View style={styles.container}>
 			{(song.title) ? (
@@ -30,7 +29,7 @@ const Music = () => {
 						<TouchableOpacity onPress={() => {setLine(index)}}><Text style={{...styles.lyrics, opacity: (index == line) ? 0.85 : (index < line) ? 0.65 : 0.4, fontWeight: (index == line) ? "bold" : ""}}>{item}</Text></TouchableOpacity>
 					)}
 					data={
-						["I know I can't take one more step towards you", "'cause all that's waiting is regret.", "And don't you know I'm not your ghost anymore", "You lost the love I loved the most", "I learned to live half alive", "but now you want me one more time", "Who do you think you are?", "Running 'round leaving scars.", "Collecting your jar of hearts", "and tearing love apart", "You're gonna catch a cold", "from the ice inside your soul", "so don't come back for me", "Who do you think you are?", "It took so long just to feel alright", "Remember how to put back the light in my eyes", "I wisih that I missed the first time that we kissed", "But you broke all your promises", "And now you're back", "You don't get to get me back"]
+						song.lyrics.split('\n')
 					}
 					style={{marginBottom: 60}}
 				/>
