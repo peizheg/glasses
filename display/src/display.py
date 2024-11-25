@@ -73,6 +73,7 @@ def scroll_text(text, scroll_speed=3, font_size=15): # scroll speed was 1, font 
     disp = OLED_1in51.OLED_1in51()
     disp.Init()
     disp.clear()
+    disp.SetBrightness(50)
     
     # Set font and image
     font = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), font_size)
@@ -102,7 +103,7 @@ def scroll_text(text, scroll_speed=3, font_size=15): # scroll speed was 1, font 
         # Draw visible lines based on scroll position
         for i, line in enumerate(lines):
             y_pos = i * font_size - scroll_pos
-            if 0 <= y_pos < disp.height:  # Only draw lines visible on the screen
+            if 0 <= y_pos < disp.height:  # Only draw the lines that are "on the screen"
                 draw.text((0, y_pos), line, font=font, fill=0)
 
         # Update the display
