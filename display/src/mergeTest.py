@@ -52,7 +52,7 @@ def findSongAndLyrics(start):
         data = stream.read(CHUNK)
         audio_buffer.append(data)
         #End loop if song hasn't been found after 6 tries
-        if (int(time.time()) - startTime == 35):
+        if (int(time.time()) - startTime >= 35):
             stream.stop_stream()
             stream.close()
             p.terminate()
