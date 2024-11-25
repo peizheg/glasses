@@ -73,11 +73,10 @@ def scroll_text(text, scroll_speed=3, font_size=15): # scroll speed was 1, font 
     disp = OLED_1in51.OLED_1in51()
     disp.Init()
     disp.clear()
-    disp.dim(True)
     
     # Set font and image
     font = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), font_size)
-    image = Image.new('1', (disp.width, disp.height), "WHITE")
+    image = Image.new('1', (disp.width, disp.height), "BLUE") # was WHITE
     draw = ImageDraw.Draw(image)
 
     # Split text into lines that fit the screen width
