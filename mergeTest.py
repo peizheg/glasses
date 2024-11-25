@@ -14,8 +14,8 @@ FORMAT = pyaudio.paInt16  # Audio format (16-bit)
 CHANNELS = 1  # Mono channel
 RATE = 44100  # Sampling rate (44.1 kHz)
 CHUNK = 1024  # Buffer size
-SECONDS = 10  # Seconds of audio to retain
-INTERVAL = 10  # Interval to save audio file (in seconds)
+SECONDS = 8  # Seconds of audio to retain
+INTERVAL = 8  # Interval to save audio file (in seconds)
 
 # Setup for audio stream
 p = pyaudio.PyAudio()
@@ -25,39 +25,7 @@ stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_
 max_chunks = int(RATE / CHUNK * SECONDS)
 audio_buffer = deque(maxlen=max_chunks)
 
-# MP3 encoder
-encoder = lameenc.Encoder()
-encoder.set_bit_rate(128)
-encoder.set_in_sample_rate(RATE)
-encoder.set_channels(CHANNELS)
-encoder.set_quality(2)  # 2 = High, 5 = Medium
-
-try:
-    print("Recording...")
-    startTime = int(time.time())
-    while True:
-        # Read audio chunk from the stream and add it to the buffer
-        data = stream.read(CHUNK)
-        audio_buffer.append(data)
-
-        # Check if it's time to save the last few seconds of audio
-        if (int(time.time()) - startTime) % INTERVAL == 0 and (int(time.time()) - startTime) != 0:
-            # Collect the data in the buffer and convert to a numpy array
-            frames = np.frombuffer(b''.join(audio_buffer), dtype=np.int16)
-
-            # Encode to MP3
-            mp3_data = encoder.encode(frames.tobytes())
-
-            # Save MP3 file
-            filename = f"currentAudio.mp3"
-            with open(filename, 'wb') as f:
-                f.write(mp3_data)
-            print(f"Saved {filename}")
-            time.sleep(1)  # Small delay to avoid multiple saves in the same second
-
-except KeyboardInterrupt:
-    print("Stopped recording.")
-    async def identify_song(file_path):
+async def identify_song(file_path):
         shazam = Shazam()
         out = await shazam.recognize(file_path)
         
@@ -70,26 +38,57 @@ except KeyboardInterrupt:
 
         return {"title": track_title, "artist": track_artist}
 
-    # path to the audio file
-    audio_file = "currentAudio.mp3"
+# MP3 encoder
+encoder = lameenc.Encoder()
+encoder.set_bit_rate(128)
+encoder.set_in_sample_rate(RATE)
+encoder.set_channels(CHANNELS)
+encoder.set_quality(2)  # 2 = High, 5 = Medium
+def findSongAndLyrics(start):
+    print("Recording...")
+    #Set initial start time
+    startTime = int(time.time())
+    while start:
+        # Read audio chunk from the stream and add it to the buffer
+        data = stream.read(CHUNK)
+        audio_buffer.append(data)
 
-    # run function
-    result = asyncio.run(identify_song(audio_file))
+        # Check if 10 seconds have passed since the last cut (or the initialization)
+        if (int(time.time()) - startTime) % INTERVAL == 0 and (int(time.time()) - startTime) != 0:
+            # Collect the data in the buffer and convert to a numpy array
+            frames = np.frombuffer(b''.join(audio_buffer), dtype=np.int16)
 
-    # print(result['title'])
-    # print(result['artist'])
+            # Encode to MP3
+            mp3_data = encoder.encode(frames.tobytes())
 
+            # Save MP3 file to currentAudio
+            filename = f"currentAudio.mp3"
+            with open(filename, 'wb') as f:
+                f.write(mp3_data)
+            print(f"Saved {filename}")
+            #Try finding song with current file
+            try:
+                # path to the audio file
+                audio_file = "currentAudio.mp3"
+                # run function if song found
+                result = asyncio.run(identify_song(audio_file))
+                start = False
+            #If error (song not found), continue searching
+            except:
+                print("Still searching...")
+            time.sleep(1)  # Small delay to avoid multiple saves in the same second
 
-    #artist = genius.search_artist("Noah Kahan", max_songs=0, sort="title", include_features=True)
+    #Find lyrics with song title
     genius.remove_section_headers = True
     song = genius.search_song(result['title'], result['artist'])
+    #Remove embed from end of lyrics string
+    song.lyrics = song.lyrics[0:-6]
     print(song.lyrics)
+    #Write lyrics to text file
     with open('lyrics.txt', 'w') as f:
         f.write("\n".join(song.lyrics.splitlines()[1:]))
-
-
-finally:
     # Cleanup
     stream.stop_stream()
     stream.close()
     p.terminate()
+findSongAndLyrics(True)

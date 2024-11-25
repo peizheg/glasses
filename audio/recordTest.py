@@ -28,15 +28,17 @@ encoder.set_in_sample_rate(RATE)
 encoder.set_channels(CHANNELS)
 encoder.set_quality(2)  # 2 = High, 5 = Medium
 
+play = False
 try:
     print("Recording...")
+    #Set initial start time
     startTime = int(time.time())
     while True:
         # Read audio chunk from the stream and add it to the buffer
         data = stream.read(CHUNK)
         audio_buffer.append(data)
 
-        # Check if it's time to save the last few seconds of audio
+        # Check if it's time to save the last few seconds of audio (every 10 seconds after the initial start time)
         if (int(time.time()) - startTime) % INTERVAL == 0 and (int(time.time()) - startTime) != 0:
             # Collect the data in the buffer and convert to a numpy array
             frames = np.frombuffer(b''.join(audio_buffer), dtype=np.int16)
@@ -44,7 +46,7 @@ try:
             # Encode to MP3
             mp3_data = encoder.encode(frames.tobytes())
 
-            # Save MP3 file
+            # Save MP3 file to currentAudio
             filename = f"currentAudio.mp3"
             with open(filename, 'wb') as f:
                 f.write(mp3_data)
