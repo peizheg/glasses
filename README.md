@@ -1,5 +1,13 @@
 # GLASSES
 
+## Team 6
+
+- Kiersten Engen
+- Peizhe Guan
+- Nur Iscan
+- Dominic Lemoine de Martigny
+- Nathan Li
+- Jennifer Yu
 
 
 ## Getting started
