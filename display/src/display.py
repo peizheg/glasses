@@ -73,7 +73,7 @@ def scroll_text(text, scroll_speed=3, font_size=15): # scroll speed was 1, font 
     disp = OLED_1in51.OLED_1in51()
     disp.Init()
     disp.clear()
-    disp.SetBrightness(50)
+    disp.set_contrast(50)
     
     # Set font and image
     font = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), font_size)
