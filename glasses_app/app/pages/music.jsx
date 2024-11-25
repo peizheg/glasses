@@ -1,11 +1,9 @@
 import { StyleSheet, Text, TouchableOpacity, View, FlatList } from "react-native";
-import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from 'expo-linear-gradient'
 import { useEffect, useState } from "react";
 import glassesServices from "../services/glasses";
 
-const Music = () => {
-	const [song, setSong] = useState({});
+const Music = ({ song, setSong }) => {
 	const [line, setLine] = useState(0);
 	useEffect(() => {
 		const getSong = async () => {

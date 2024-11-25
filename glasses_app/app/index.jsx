@@ -11,12 +11,13 @@ import Header from './header';
 
 const App = () => {
 	const [currentPage, setCurrentPage] = useState("home")
+	const [song, setSong] = useState({})
 
 	return (
 		<>
 			<Header />
-			{currentPage == "home" ? <Home setCurrentPage={setCurrentPage} /> : null}
-			{currentPage == "music" ? <Music /> : null}
+			{currentPage == "home" ? <Home setCurrentPage={setCurrentPage} song={song} setSong={setSong} /> : null}
+			{currentPage == "music" ? <Music song={song} setSong={setSong} /> : null}
 			{currentPage == "history" ? <History /> : null}
 			{currentPage == "settings" ? <Settings /> : null}
 			<Footer currentPage={currentPage} setCurrentPage={setCurrentPage} />
