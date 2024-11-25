@@ -39,4 +39,10 @@ def write_text(text, large=False, refreshRate=10):
     time.sleep(2)
     disp.clear()
 
+def write_song():
+    with open('lyrics.txt', 'r') as file:
+        data = file.read()
+        write_text(data)
+
 write_text('testing testing tesitng')
+write_song()
