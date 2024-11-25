@@ -37,3 +37,6 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+.vscode/settings.json=

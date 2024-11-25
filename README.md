@@ -1,5 +1,13 @@
-# GLASSES
+# G.L.A.S.S.E.S: Graphical Light Assisted Sound Sensor Eyewear System
 
+## Team 5
+
+- Kiersten Engen
+- Peizhe Guan
+- Nur Iscan
+- Dominic Lemoine de Martigny
+- Nathan Li
+- Jennifer Yu
 
 
 ## Getting started
