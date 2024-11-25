@@ -58,7 +58,7 @@ def scroll_text(text, scroll_speed=3, font_size=14): #scroll speed was 1, font s
 
         #Update the display
         disp.ShowImage(disp.getbuffer(image))
-        time.sleep(0.02) #frame rate was 0.05
+        time.sleep(0.05) #frame rate was 0.05
 
         # Scroll down by scroll_speed pixels
         scroll_pos += scroll_speed
