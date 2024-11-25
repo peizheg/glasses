@@ -61,7 +61,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 logging.basicConfig(level=logging.DEBUG)
 
-def scroll_text(text, scroll_speed=3, font_size=15): # scroll speed was 1, font size was 12
+def scroll_text(text, scroll_speed=3, font_size=20): # scroll speed was 1, font size was 12
     """
     Scrolls the provided text vertically on the OLED display.
     
