@@ -10,49 +10,33 @@ if os.path.exists(libdir):
 
 import logging    
 import time
-import traceback
 from waveshare_OLED import OLED_1in51
 from PIL import Image,ImageDraw,ImageFont
 logging.basicConfig(level=logging.DEBUG)
 
-try:
+def write_text(text, large=False, refreshRate=10):
     disp = OLED_1in51.OLED_1in51()
-
-    logging.info("\r1.51inch OLED ")
-    # Initialize library.
     disp.Init()
-    # Clear display.
-    logging.info("clear display")
-    disp.clear()
 
-    # Create blank image for drawing.
     font = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 12)
-    
-    fp = open("song.txt")
-    for words in fp:
-        image = Image.new('1', (disp.width, disp.height), "WHITE")
-        draw = ImageDraw.Draw(image)
-        line_count = 0
 
-        line = ""
-        for word in words.split():
-            if len(line + word) >= 18:
-                draw.text((20, 20 * line_count), line, font=font, fill=0)
-                line = ""
-                line_count += 1
+    image = Image.new('1', (disp.width, disp.height), "WHITE")
+    draw = ImageDraw.Draw(image)
+    line_count = 0
 
-            line += f"{word} "
+    line = ""
+    for word in text.split():
+        if len(line + word) >= 18:
+            draw.text((20, 20 * line_count), line, font=font, fill=0)
+            line = ""
+            line_count += 1
 
-        draw.text((20, 20 * line_count), line, font=font, fill=0)
+        line += f"{word} "
 
-        disp.ShowImage(disp.getbuffer(image))
-        time.sleep(2)
+    draw.text((20, 20 * line_count), line, font=font, fill=0)
+
+    disp.ShowImage(disp.getbuffer(image))
+    time.sleep(2)
     disp.clear()
 
-except IOError as e:
-    logging.info(e)
-
-except KeyboardInterrupt:    
-    logging.info("ctrl + c:")
-    disp.module_exit()
-    exit()
+write_text('testing testing tesitng')
