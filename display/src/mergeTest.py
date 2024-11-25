@@ -13,8 +13,8 @@ FORMAT = pyaudio.paInt16  # Audio format (16-bit)
 CHANNELS = 1  # Mono channel
 RATE = 44100  # Sampling rate (44.1 kHz)
 CHUNK = 1024  # Buffer size
-SECONDS = 8  # Seconds of audio to retain
-INTERVAL = 8  # Interval to save audio file (in seconds)
+SECONDS = 5  # Seconds of audio to retain
+INTERVAL = 5  # Interval to save audio file (in seconds)
 
 # Setup for audio stream
 p = pyaudio.PyAudio()
@@ -51,8 +51,14 @@ def findSongAndLyrics(start):
         # Read audio chunk from the stream and add it to the buffer
         data = stream.read(CHUNK)
         audio_buffer.append(data)
+        #End loop if song hasn't been found after 6 tries
+        if (int(time.time()) - startTime == 35):
+            stream.stop_stream()
+            stream.close()
+            p.terminate()
+            return False
 
-        # Check if 10 seconds have passed since the last cut (or the initialization)
+        # Check if 5 seconds have passed since the last cut (or the initialization)
         if (int(time.time()) - startTime) % INTERVAL == 0 and (int(time.time()) - startTime) != 0:
             # Collect the data in the buffer and convert to a numpy array
             frames = np.frombuffer(b''.join(audio_buffer), dtype=np.int16)
@@ -82,12 +88,19 @@ def findSongAndLyrics(start):
     song = genius.search_song(result['title'], result['artist'])
     #Remove embed from end of lyrics string
     song.lyrics = song.lyrics[0:-6]
+    #Create return dictionary with all relevant data
+    retDict = {
+        'artist': result['artist'],
+        'title': result['title'],
+        'lyrics': song.lyrics
+    }
     print(song.lyrics)
     #Write lyrics to text file
-    with open('lyrics.txt', 'w') as f:
+    with open('lyrics.txt', 'w', encoding="utf-8") as f:
         f.write("\n".join(song.lyrics.splitlines()[1:]))
     # Cleanup
     stream.stop_stream()
     stream.close()
     p.terminate()
+    return retDict
 findSongAndLyrics(True)
