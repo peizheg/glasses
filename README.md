@@ -1,6 +1,6 @@
-# GLASSES
+# G.L.A.S.S.E.S: Graphical Light Assisted Sound Sensor Eyewear System
 
-## Team 6
+## Team 5
 
 - Kiersten Engen
 - Peizhe Guan
