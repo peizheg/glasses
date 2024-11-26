@@ -14,6 +14,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 def scroll_text(text, scroll_speed=1.5, font_size=14): #scroll speed was 1, font size was 12
     #scroll_speed 1, font size 14 --> ~95 wpm
+    #scroll_speed 1.5, font size 14 --> ~130 wpm
     #scroll_speed 2, font size 14 --> ~160 wpm
     #scroll_speed 3, font size 14 --> ~250 wpm
     #scroll_speed 4, font size 14 --> ~300 wpm
@@ -61,8 +62,14 @@ def scroll_text(text, scroll_speed=1.5, font_size=14): #scroll speed was 1, font
             if 0 <= y_pos < disp.height:  # only show the lines that are "on the screen"
                 draw.text((0, y_pos), line, font=font, fill=0)
 
-        #Update the display
-        disp.ShowImage(disp.getbuffer(image))
+        # #Update the display
+        # disp.ShowImage(disp.getbuffer(image))
+        
+        # Rotate the image 90 degrees counterclockwise
+        rotated_image = image.rotate(90, expand=True)
+
+        # Update the display with the rotated image
+        disp.ShowImage(disp.getbuffer(rotated_image))
         time.sleep(0.05) #frame rate was 0.05
 
         # Scroll down by scroll_speed pixels
