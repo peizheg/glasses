@@ -5,7 +5,7 @@ libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__)
 if os.path.exists(libdir):
     sys.path.append(libdir)
 
-import logging    
+import logging
 import time
 from waveshare_OLED import OLED_1in51
 from PIL import Image, ImageDraw, ImageFont
@@ -93,3 +93,4 @@ def write_song(lyrics):
         scroll_text(lyrics, True)
     except:
         print("No OLED display detected")
+        print(f"lyrics: {lyrics}")

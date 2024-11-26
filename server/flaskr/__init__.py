@@ -1,28 +1,37 @@
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
-from time import sleep
 
 from .display.src.lyrics import findSongAndLyrics
-from .display.src.display import write_song
+
+PI_ENABLED = True
+
+try:
+    from .display.src.display import write_song
+except:
+    PI_ENABLED = False
 
 def create_app():
     # create and configure the server
     app = Flask(__name__)
     CORS(app)
 
-    @app.route('/hello')
+    @app.get('/hello')
     def hello():
         return 'Hello, World!'
 
-
-    @app.route('/get_song')
+    @app.get('/get_song')
     def get_song():
         response = findSongAndLyrics()
-        write_song(response.lyrics)
+        if PI_ENABLED: write_song(response.lyrics)
         return response
     
+    @app.post('/change_lyrics')
     def change_lyrics():
-        return 0
+        req = request.json
+        lyrics = req['lyrics']
+        print(lyrics)
+        if PI_ENABLED: write_song(lyrics)
+        return lyrics
 
     @app.put('/settings')
     def change_settings():
