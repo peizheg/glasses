@@ -11,7 +11,6 @@ CHANNELS = 1                # Mono channel
 RATE = 44100                # Sampling rate (44.1 kHz)
 CHUNK = 1024                # Buffer size
 SECONDS = 5                 # Seconds of audio to retain
-INTERVAL = 5                # Interval to save audio file (in seconds)
 
 # Set Genius API key
 GENIUS = lyricsgenius.Genius("ShGRYCfN2TXrPT3B3QCRv_e6ov1hoWptPnvgkc3Juw-4NsOTWPWbYfewDwd3fYjN", remove_section_headers=True)
@@ -62,10 +61,7 @@ async def asyncFindSongAndLyrics():
             'songFound': True
         }
     
-    
-    return {
-        'songFound': False
-    }
+    return { 'songFound': False }
 
 def findSongAndLyrics():
     return asyncio.run(asyncFindSongAndLyrics())
