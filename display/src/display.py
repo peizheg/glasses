@@ -64,9 +64,9 @@ def scroll_text(text, scroll_speed=1.5, font_size=14): #scroll speed was 1, font
 
         # #Update the display
         # disp.ShowImage(disp.getbuffer(image))
-        
+
         # Rotate the image 90 degrees counterclockwise
-        rotated_image = image.rotate(90, expand=True)
+        rotated_image = image.rotate(180, expand=True)
 
         # Update the display with the rotated image
         disp.ShowImage(disp.getbuffer(rotated_image))
