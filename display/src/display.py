@@ -23,6 +23,7 @@ def scroll_text(text, is_vertical, scroll_speed=1.5, font_size=14): #scroll spee
     Scrolls the provided text vertically on the OLED display.
     
     :param text: The text to scroll.
+    :param is_vertical: True for vertically-oriented screen, False for horizontally-oriented screen.
     :param scroll_speed: Number of pixels to scroll per frame (higher = faster).
     :param font_size: Font size for the text.
     """
