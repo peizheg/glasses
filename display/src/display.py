@@ -96,9 +96,9 @@ from PIL import Image, ImageDraw, ImageFont
 
 logging.basicConfig(level=logging.DEBUG)
 
-def scroll_text(text, scroll_speed=1.5, font_size=14):
+def scroll_text(text, scroll_speed=1.5, font_size=14): 
     """
-    Scrolls the provided text horizontally (after a 90-degree counterclockwise rotation) on the OLED display.
+    Scrolls the provided text vertically after a 90-degree counterclockwise rotation on the OLED display.
     
     :param text: The text to scroll.
     :param scroll_speed: Number of pixels to scroll per frame (higher = faster).
@@ -109,13 +109,13 @@ def scroll_text(text, scroll_speed=1.5, font_size=14):
     disp.Init()
     disp.clear()
     
-    # Set font and image
+    # Set font and create an image
     font = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), font_size)
     image = Image.new('1', (disp.height, disp.width), "WHITE")  # Swap dimensions for rotation
     draw = ImageDraw.Draw(image)
 
-    # Split text into lines that fit the rotated screen height (now the width of the display)
-    max_chars = disp.height // (font_size // 2)  # Adjust for rotated display height
+    # Split text into lines that fit the rotated screen width
+    max_chars = disp.height // (font_size // 2)  # Adjust for rotated display width
     lines = []
     line = ""
     for word in text.split():
@@ -126,17 +126,19 @@ def scroll_text(text, scroll_speed=1.5, font_size=14):
             line = f"{word} "
     lines.append(line.strip())  # Add the last line
 
-    # Combine all lines into one horizontal string
-    full_text = "   ".join(lines)  # Add spacing between lines
-    text_width = len(full_text) * (font_size // 2)  # Approximate text width
-    scroll_pos = disp.width  # Start scrolling from the right edge
+    # Scrolling effect
+    text_height = len(lines) * font_size
+    scroll_pos = 0  # Start at the top
 
-    while scroll_pos > -text_width:
+    while scroll_pos < text_height:
         # Start blank
         draw.rectangle((0, 0, disp.height, disp.width), fill="WHITE")
 
-        # Draw text horizontally based on scroll position
-        draw.text((scroll_pos, 0), full_text, font=font, fill=0)
+        # Draw visible lines based on scroll position
+        for i, line in enumerate(lines):
+            y_pos = i * font_size - scroll_pos
+            if 0 <= y_pos < disp.width:  # Only show the lines that are "on the screen"
+                draw.text((0, y_pos), line, font=font, fill=0)
 
         # Rotate the image 90 degrees counterclockwise
         rotated_image = image.rotate(90, expand=True)
@@ -145,8 +147,8 @@ def scroll_text(text, scroll_speed=1.5, font_size=14):
         disp.ShowImage(disp.getbuffer(rotated_image))
         time.sleep(0.05)  # Frame rate was 0.05
 
-        # Scroll left by scroll_speed pixels
-        scroll_pos -= scroll_speed
+        # Scroll down by scroll_speed pixels
+        scroll_pos += scroll_speed
 
     disp.clear()
 
@@ -154,11 +156,17 @@ def write_song():
     """
     Reads the lyrics from a file and scrolls them on the OLED display.
     """
-    with open('lyrics.txt', 'r') as file:
-        data = file.read()
-        scroll_text(data)
+    try:
+        with open('lyrics.txt', 'r') as file:
+            data = file.read()
+            scroll_text(data)
+    except FileNotFoundError:
+        logging.error("File 'lyrics.txt' not found.")
+    except Exception as e:
+        logging.error(f"An error occurred while reading the file: {e}")
 
 write_song()
+
 
 
 # # #!/usr/bin/python
