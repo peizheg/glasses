@@ -89,7 +89,7 @@ def write_song():
     """
     with open('lyrics.txt', 'r') as file:
         data = file.read()
-        scroll_text(data, True)
+        scroll_text(data, False)
 
 write_song()
 
