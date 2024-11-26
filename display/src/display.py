@@ -12,8 +12,8 @@ from PIL import Image, ImageDraw, ImageFont
 
 logging.basicConfig(level=logging.DEBUG)
 
-def scroll_text(text, scroll_speed=2, font_size=14): #scroll speed was 1, font size was 12
-    
+def scroll_text(text, scroll_speed=1, font_size=14): #scroll speed was 1, font size was 12
+    #scroll_speed 2, font size 14 --> ~160 wpm
     #scroll_speed 3, font size 14 --> ~250 wpm
 
     """
