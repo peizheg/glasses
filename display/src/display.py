@@ -157,7 +157,7 @@ def write_song():
     try:
         with open('lyrics.txt', 'r') as file:
             data = file.read()
-            scroll_text(data, True)
+            scroll_text(data, False)
     except FileNotFoundError:
         logging.error("File 'lyrics.txt' not found.")
     except Exception as e:
