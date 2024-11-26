@@ -84,7 +84,10 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 
-def scroll_text(text, is_vertical, scroll_speed=1.5, font_size=14): 
+
+
+
+def scroll_text_vertical(text, scroll_speed=1.5, font_size=14): 
     """
     Scrolls the provided text vertically after a 90-degree counterclockwise rotation on the OLED display.
     
@@ -96,22 +99,14 @@ def scroll_text(text, is_vertical, scroll_speed=1.5, font_size=14):
     disp = OLED_1in51.OLED_1in51()
     disp.Init()
     disp.clear()
-
-    #Set width and height based on orientation
-    if is_vertical:
-        width = disp.height
-        height = disp.width
-    else:
-        width = disp.width
-        height = disp.height
     
     # Set font and create an image
     font = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), font_size)
-    image = Image.new('1', (width, height), "WHITE")  # Swap dimensions for rotation
+    image = Image.new('1', (disp.height, disp.width), "WHITE")  # Swap dimensions for rotation
     draw = ImageDraw.Draw(image)
 
     # Split text into lines that fit the rotated screen width
-    max_chars = width // (font_size // 2)  # Adjust for rotated display width
+    max_chars = disp.height // (font_size // 2)  # Adjust for rotated display width
     lines = []
     line = ""
     for word in text.split():
@@ -128,21 +123,19 @@ def scroll_text(text, is_vertical, scroll_speed=1.5, font_size=14):
 
     while scroll_pos < text_height:
         # Start blank
-        draw.rectangle((0, 0, width, height), fill="WHITE")
+        draw.rectangle((0, 0, disp.height, disp.width), fill="WHITE")
 
         # Draw visible lines based on scroll position
         for i, line in enumerate(lines):
             y_pos = i * font_size - scroll_pos
-            if 0 <= y_pos < height:  # Only show the lines that are "on the screen"
+            if 0 <= y_pos < disp.width:  # Only show the lines that are "on the screen"
                 draw.text((0, y_pos), line, font=font, fill=0)
 
-        # Rotate the image 90 degrees counterclockwise if needed
-        if is_vertical:
-            image = image.rotate(90, expand=True)
-
+        # Rotate the image 90 degrees counterclockwise
+        rotated_image = image.rotate(90, expand=True)
 
         # Update the display with the rotated image
-        disp.ShowImage(disp.getbuffer(image))
+        disp.ShowImage(disp.getbuffer(rotated_image))
         time.sleep(0.05)  # Frame rate was 0.05
 
         # Scroll down by scroll_speed pixels
@@ -157,7 +150,7 @@ def write_song():
     try:
         with open('lyrics.txt', 'r') as file:
             data = file.read()
-            scroll_text(data, False)
+            scroll_text_vertical(data)
     except FileNotFoundError:
         logging.error("File 'lyrics.txt' not found.")
     except Exception as e:
