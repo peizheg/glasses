@@ -1,5 +1,4 @@
-import asyncio
-from shazamio import Shazam
+import requests
 
 import lyricsgenius
 import pyaudio
@@ -24,7 +23,7 @@ def save_song(frames, samplewidth):
     wf.writeframes(b''.join(frames))
     wf.close()
 
-async def asyncFindSongAndLyrics():
+def findSongAndLyrics():
     print("Recording...")
 
     # Setup for audio stream
@@ -40,14 +39,17 @@ async def asyncFindSongAndLyrics():
 
         save_song(frames, p.get_sample_size(FORMAT))
 
-        shazam = Shazam()
-        out = await shazam.recognize('./recording.wav')
-
-        if out["matches"]: break
+        # Send audio to Shazam
+        with open('./recording.wav', 'rb') as fp:
+            res = requests.post('http://localhost:5000/recognize_song', files={ 'recording.wav': fp.read() })
+            out = res.json()
+            if out["matches"]: break
 
 
     stream.close()
     p.terminate()
+
+    print(out)
 
     if out["matches"]:
         track = out['track']
@@ -62,6 +64,3 @@ async def asyncFindSongAndLyrics():
         }
     
     return { 'songFound': False }
-
-def findSongAndLyrics():
-    return asyncio.run(asyncFindSongAndLyrics())
