@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = "http://127.0.0.1:5000"
+const baseUrl = "https://new-trout-ideally.ngrok-free.app"
 
 const get_song = async () => {
     const response = await axios.get(`${baseUrl}/get_song`)

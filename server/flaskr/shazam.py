@@ -2,7 +2,6 @@ import asyncio
 from shazamio import Shazam
 
 from flask import request
-import requests
 
 async def asyncRecognizeSong():
     req = request.files['recording.wav']

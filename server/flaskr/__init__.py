@@ -14,11 +14,6 @@ def create_app():
 
     @app.post('/recognize_song')
     def recognize_song():
-        
-
         return recognizeSong()
-
-
-    
 
     return app
