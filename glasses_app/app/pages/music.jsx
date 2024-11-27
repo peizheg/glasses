@@ -7,9 +7,9 @@ const Music = ({ song, setSong }) => {
 	const [line, setLine] = useState(0)
 	const [isSearching, setIsSearching] = useState(false)
 
-	const changeLine = (index) => {
+	const changeLine = async (index) => {
 		setLine(index)
-
+		await glassesServices.change_lyrics(song.lyrics.split('\n').slice(index + 1).join("\n"))
 	}
 
 	const find_song = async () => {
