@@ -41,7 +41,7 @@ def findSongAndLyrics():
 
         # Send audio to Shazam
         with open('./recording.wav', 'rb') as fp:
-            res = requests.post('http://localhost:5000/recognize_song', files={ 'recording.wav': fp.read() })
+            res = requests.post('https://boss-previously-grubworm.ngrok-free.app/recognize_song', files={ 'recording.wav': fp.read() })
             out = res.json()
             if out["matches"]: break
 
