@@ -1,19 +1,20 @@
 from flask import Flask, request
 from flask_cors import CORS
 
+from werkzeug.middleware.proxy_fix import ProxyFix
+import threading
+
 from .display.src.lyrics import findSongAndLyrics
+from .display.src.display import write_song
 
-PI_ENABLED = True
-
-try:
-    from .display.src.display import write_song
-except:
-    PI_ENABLED = False
 
 def create_app():
     # create and configure the server
     app = Flask(__name__)
     CORS(app)
+    app.wsgi_app = ProxyFix(
+        app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+    )
 
     @app.get('/hello')
     def hello():
@@ -22,7 +23,11 @@ def create_app():
     @app.get('/get_song')
     def get_song():
         response = findSongAndLyrics()
-        if PI_ENABLED: write_song(response.lyrics)
+        
+        t = threading.Thread(target=write_song, args=[response["lyrics"]])
+        t.setDaemon(False)
+        t.start()
+
         return response
     
     @app.post('/change_lyrics')
@@ -30,7 +35,7 @@ def create_app():
         req = request.json
         lyrics = req['lyrics']
         print(lyrics)
-        if PI_ENABLED: write_song(lyrics)
+        write_song(lyrics)
         return lyrics
 
     @app.put('/settings')
@@ -40,3 +45,5 @@ def create_app():
     
 
     return app
+
+
