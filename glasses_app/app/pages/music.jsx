@@ -1,17 +1,23 @@
 import { StyleSheet, Text, TouchableOpacity, View, FlatList } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient'
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import glassesServices from "../services/glasses";
 
 const Music = ({ song, setSong }) => {
-	const [line, setLine] = useState(0);
-	useEffect(() => {
-		const getSong = async () => {
-			const songResponse = await glassesServices.get_song()
-			setSong({ ...songResponse })
-		}
-		getSong()
-	}, [])
+	const [line, setLine] = useState(0)
+	const [isSearching, setIsSearching] = useState(false)
+
+	const changeLine = async (index) => {
+		setLine(index)
+		await glassesServices.change_lyrics(song.lyrics.split('\n').slice(index + 1).join("\n"))
+	}
+
+	const find_song = async () => {
+		setIsSearching(true)
+		const song_response = await glassesServices.get_song()
+		setSong({ ...song_response })
+		setIsSearching(false)
+	  }
 
 	return (
 		<View style={styles.container}>
@@ -24,17 +30,27 @@ const Music = ({ song, setSong }) => {
 						</LinearGradient>}
 					showsVerticalScrollIndicator={false} bounces={false} stickyHeaderIndices={[0]}
 					renderItem={({item, index}) => (
-						<TouchableOpacity onPress={() => {setLine(index)}}><Text style={{...styles.lyrics, opacity: (index == line) ? 0.85 : (index < line) ? 0.65 : 0.4, fontWeight: (index == line) ? "bold" : ""}}>{item}</Text></TouchableOpacity>
+						<TouchableOpacity onPress={() => changeLine(index)}>
+							<Text style={{...styles.lyrics, opacity: (index == line) ? 0.85 : (index < line) ? 0.65 : 0.4, fontWeight: (index == line) ? "bold" : ""}}>{item}</Text>
+						</TouchableOpacity>
 					)}
 					data={
-						song.lyrics.split('\n')
+						song.lyrics.split('\n').slice(1)
 					}
 					style={{marginBottom: 60}}
 				/>
-			) : (
-				<View style={{justifyContent: "center", alignItems: "center", flex: 1}}>
-					<Text style={{...styles.title, paddingBottom: 100}}>Listening to the song...</Text>
-				</View>
+			) : ((isSearching) ? (
+					<View style={{justifyContent: "center", alignItems: "center", flex: 1}}>
+						<Text style={{...styles.title, paddingBottom: 100}}>Listening to the song...</Text>
+					</View>
+				) : (
+					<View style={{flex: 1, alignItems: "center", justifyContent: "center", marginBottom: 60}}>
+					<Text style={styles.largeText}>{"No lyrics to display! Please search for a song first!"}</Text>
+					<TouchableOpacity style={styles.connectButton}>
+					  <Text style={styles.connectLabel} onPress={find_song}>Start Searching!</Text>
+					</TouchableOpacity>
+				  </View>
+				)
 			)}
 		</View>
 	);
@@ -109,12 +125,12 @@ const styles = StyleSheet.create({
   },
 
   connectButton: {
-	width: 200,
-	height: 40,
-	backgroundColor: "white",
+    width: 200,
+    height: 40,
+    backgroundColor: "#769568",
     color: "#38434D",
-	marginHorizontal: "auto",
-	marginBottom: 100,
+    marginHorizontal: "auto",
+    marginBottom: 200,
   },
 
   connectLabel: {
@@ -131,6 +147,13 @@ const styles = StyleSheet.create({
 	borderRadius: 5,
 	borderColor: "dimgrey",
 	backgroundColor: "darkgrey",
+  },
+
+  largeText: {
+    fontSize: 24,
+    color: "#ACBFA4",
+    fontWeight: "normal",
+    marginBottom: 30,
   },
 });
 

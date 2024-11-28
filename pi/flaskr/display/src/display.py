@@ -5,7 +5,7 @@ libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__)
 if os.path.exists(libdir):
     sys.path.append(libdir)
 
-import logging    
+import logging
 import time
 from waveshare_OLED import OLED_1in51
 from PIL import Image, ImageDraw, ImageFont
@@ -85,68 +85,12 @@ def scroll_text(text, is_vertical, scroll_speed=1.5, font_size=14): #scroll spee
 
     disp.clear()
 
-def write_song():
+def write_song(lyrics):
     """
-    Reads the lyrics from a file and scrolls them on the OLED display.
+    Gracefully reads the lyrics from a file and scrolls them on the OLED display.
     """
     try:
-        with open('lyrics.txt', 'r') as file:
-            data = file.read()
-            scroll_text(data, True)
-    except FileNotFoundError:
-        logging.error("File 'lyrics.txt' not found.")
-    except Exception as e:
-        logging.error(f"An error occurred while reading the file: {e}")
-
-write_song()
-
-
-
-# # #!/usr/bin/python
-# # # -*- coding:utf-8 -*-
-
-# # import sys
-# # import os
-# # picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
-# # libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
-# # if os.path.exists(libdir):
-# #     sys.path.append(libdir)
-
-# # import logging    
-# # import time
-# # from waveshare_OLED import OLED_1in51
-# # from PIL import Image,ImageDraw,ImageFont
-# # logging.basicConfig(level=logging.DEBUG)
-
-# # def write_text(text, large=False, refreshRate=10):
-# #     disp = OLED_1in51.OLED_1in51()
-# #     disp.Init()
-
-# #     font = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 12)
-
-# #     image = Image.new('1', (disp.width, disp.height), "WHITE")
-# #     draw = ImageDraw.Draw(image)
-# #     line_count = 0
-
-# #     line = ""
-# #     for word in text.split():
-# #         if len(line + word) >= 18:
-# #             draw.text((20, 20 * line_count), line, font=font, fill=0)
-# #             line = ""
-# #             line_count += 1
-
-# #         line += f"{word} "
-
-# #     draw.text((20, 20 * line_count), line, font=font, fill=0)
-
-# #     disp.ShowImage(disp.getbuffer(image))
-# #     time.sleep(2)
-# #     disp.clear()
-
-# # def write_song():
-# #     with open('lyrics.txt', 'r') as file:
-# #         data = file.read()
-# #         write_text(data)
-
-# # write_song()
-
+        scroll_text(lyrics, True)
+    except:
+        print("No OLED display detected")
+        print(f"lyrics: {lyrics}")
