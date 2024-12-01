@@ -10,13 +10,8 @@ const Settings = () => {
   const [ tempEdit, setTempEdit ] = useState(false);
 	const [ showDetail, setShowDetail ] = useState(null);
 
-  function updateTempSettings() {
-    //setTempSettings(settings);
-    alert()
-  }
-
   useEffect(() => {
-    var temp = false;
+    /**var temp = false;
     Object.keys(tempSettings).forEach((key) => {
       //var disp = settingDisplay.find((element) => element.title == key);
       //alert(disp);
@@ -26,8 +21,9 @@ const Settings = () => {
               (tempSettings[key].toString() == "" ||
               ((settingDisplay.find((element) => element.setting ?? element.title == key).valid[0] && tempSettings[key] < settingDisplay.find((element) => element.setting ?? element.title == key).valid[1]) || (settingDisplay.find((element) => element.setting ?? element.title == key).valid[2] && tempSettings[key] > settingDisplay.find((element) => element.setting ?? element.title == key).valid[3]))));
       //alert(key+": "+(tempSettings[key].toString() == ""))**/
-    });
-    setTempEdit(temp);
+    /**});
+    setTempEdit(temp);**/
+    setTempEdit(true);
   }, [ tempSettings ]);
 
   const settingDisplay = [
