@@ -33,23 +33,54 @@ def fetch_lyrics_with_timestamps(title, artist):
         return lyrics
     return None
 
+# def display_lyrics_with_timestamps(lyrics, start_time):
+#     """
+#     Synchronizes and displays the lyrics with timestamps.
+#     """
+#     print('start:', start_time)
+#     prev_time = start_time
+#     for line in lyrics:
+#         timestamp = line['seconds']
+#         text = line['lyrics']
+
+#         # Wait until the correct time to display the lyric
+#         if (timestamp - prev_time < 0):
+#             print('>', text)
+#             continue
+        
+#         print('>', text)  # Display the lyric
+#         show_text(text, True)
+#         time.sleep(timestamp - prev_time - 0.65)
+#         prev_time = timestamp
+
 def display_lyrics_with_timestamps(lyrics, start_time):
     """
-    Synchronizes and displays the lyrics with timestamps.
+    Synchronizes and displays the current and next lyrics with timestamps.
     """
     print('start:', start_time)
     prev_time = start_time
-    for line in lyrics:
+
+    for i, line in enumerate(lyrics):
         timestamp = line['seconds']
-        text = line['lyrics']
+        current_text = line['lyrics']
+        if i + 1 < len(lyrics):
+            next_text = lyrics[i + 1]['lyrics']
+        else:
+            next_text = ""
 
         # Wait until the correct time to display the lyric
-        if (timestamp - prev_time < 0):
-            print('>', text)
+        if timestamp - prev_time < 0:
+            print('>', current_text)
             continue
-        
-        print('>', text)  # Display the lyric
-        show_text(text, True)
+
+        # Combine current and next lyrics for display
+        combined_text = f"{current_text}\n{next_text}"
+        print('>', combined_text)  # Log the lyrics to the console
+
+        # Display the combined text
+        show_text(combined_text, True)
+
+        # Adjust sleep time based on the difference between timestamps
         time.sleep(timestamp - prev_time - 0.65)
         prev_time = timestamp
 
