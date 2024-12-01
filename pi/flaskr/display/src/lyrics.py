@@ -25,13 +25,11 @@ def save_song(frames, samplewidth):
     wf.close()
 
 def fetch_lyrics_with_timestamps(title, artist):
-    query = f"{artist} {title}".replace(" ", "%20")
-    url = f"https://api.textyl.co/api/lyrics?q={query}"
-    response = requests.get(url)
+    response = requests.post(f"https://api.textyl.co/api/lyrics?q={'%20'.join(artist.lower().split())}%20{'%20'.join(title.lower().split())}", verify=False)
+
     if response.status_code == 200:
-        data = response.json()
-        if 'lyrics' in data:
-            return data['lyrics']  # Return lyrics with timestamps
+        lyrics = response.json()
+        return lyrics
     return None
 
 def display_lyrics_with_timestamps(lyrics, start_time):
@@ -39,8 +37,8 @@ def display_lyrics_with_timestamps(lyrics, start_time):
     Synchronizes and displays the lyrics with timestamps.
     """
     for line in lyrics:
-        timestamp = line['timestamp'] / 1000  # Convert milliseconds to seconds
-        text = line['text']
+        timestamp = line['seconds']
+        text = line['lyrics']
         current_time = time.time() - start_time
 
         # Wait until the correct time to display the lyric
