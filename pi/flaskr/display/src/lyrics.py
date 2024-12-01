@@ -4,7 +4,7 @@ import lyricsgenius
 import pyaudio
 import wave
 import time
-from flaskr.display.src.display import scroll_text
+from flaskr.display.src.display import show_text
 
 # Audio parameters
 FORMAT = pyaudio.paInt16    # Audio format (16-bit)
