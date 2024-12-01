@@ -62,7 +62,7 @@ def show_text(text, is_vertical, font_size=14):
         rotated_image = image.rotate(90, expand=True)
         disp.ShowImage(disp.getbuffer(rotated_image))
 
-    time.sleep(10)  #display time was 3 seconds
+    # time.sleep(3)  #display time was 3 seconds
 
 def scroll_text(text, is_vertical, scroll_speed=1.5, font_size=14): #scroll speed was 1, font size was 12
     #scroll_speed 1, font size 14 --> ~95 wpm
