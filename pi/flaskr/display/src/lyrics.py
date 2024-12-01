@@ -6,7 +6,6 @@ import wave
 import time
 from flaskr.display.src.display import scroll_text
 
-
 # Audio parameters
 FORMAT = pyaudio.paInt16    # Audio format (16-bit)
 CHANNELS = 1                # Mono channel
@@ -48,7 +47,7 @@ def display_lyrics_with_timestamps(lyrics, start_time):
             time.sleep(timestamp - current_time)
         
         print(text)  # Display the lyric
-        scroll_text(text, True)
+        show_text(text, True)
 
 
 def findSongAndLyrics():
