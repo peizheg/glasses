@@ -64,8 +64,8 @@ def scroll_text(text, is_vertical, scroll_speed=1.5, font_size=14): #scroll spee
     while scroll_pos < text_height:
         # start blank
         draw.rectangle((0, 0, width, height), fill="WHITE")
-
-        #Draw visible lines based on scroll position
+        
+        # Draw visible lines based on scroll position
         for i, line in enumerate(lines):
             y_pos = i * font_size - scroll_pos
             if 0 <= y_pos < height:  # only show the lines that are "on the screen"
