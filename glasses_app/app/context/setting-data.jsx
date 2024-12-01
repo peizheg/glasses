@@ -5,7 +5,9 @@ const Settings = React.createContext();
 export const SettingList = ({ children }) => {
 	const defaults = {
 		refresh: 10,
-        textSize: false,
+		scrollRate: 5,
+        textSize: 5,
+		orientation: false,
         lowPow: false,
         lowData: false,
 	};
