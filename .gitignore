@@ -1,3 +1,53 @@
 .venv
 .expo
 node_modules
+=======
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store
+*.pem
+
+# local env files
+.env*.local
+.env
+.venv/
+__pycache__
+
+# typescript
+*.tsbuildinfo
+
+app-example
+
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+.vscode/settings.json=
+.vscode/settings.json
+display/lib/waveshare_OLED/__pycache__/__init__.cpython-311.pyc
+display/lib/waveshare_OLED/__pycache__/config.cpython-311.pyc
+display/lib/waveshare_OLED/__pycache__/OLED_1in51.cpython-311.pyc
