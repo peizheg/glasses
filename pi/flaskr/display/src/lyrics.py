@@ -36,14 +36,15 @@ def display_lyrics_with_timestamps(lyrics, start_time):
     """
     Synchronizes and displays the lyrics with timestamps.
     """
+    prev_time = start_time
     for line in lyrics:
         timestamp = line['seconds']
         text = line['lyrics']
-        current_time = time.time() - start_time
 
         # Wait until the correct time to display the lyric
-        if timestamp > current_time:
-            time.sleep(timestamp - current_time)
+        if (timestamp - prev_time < 0): continue
+        time.sleep(timestamp - prev_time)
+        prev_time = timestamp
         
         print(text)  # Display the lyric
 
@@ -86,6 +87,8 @@ def findSongAndLyrics():
         else:
             print("Lyrics with timestamps not found.")
         
+        print(lyrics)
+
         return {
             'artist': track['subtitle'],
             'title': track['title'],
