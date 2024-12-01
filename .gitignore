@@ -44,3 +44,7 @@ app-example
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/settings.json=
+.vscode/settings.json
+display/lib/waveshare_OLED/__pycache__/__init__.cpython-311.pyc
+display/lib/waveshare_OLED/__pycache__/config.cpython-311.pyc
+display/lib/waveshare_OLED/__pycache__/OLED_1in51.cpython-311.pyc

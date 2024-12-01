@@ -12,20 +12,32 @@ const Settings = () => {
 
   function updateTempSettings() {
     //setTempSettings(settings);
+    alert()
   }
 
   useEffect(() => {
     var temp = false;
-    Object.keys(tempSettings).forEach((key) => {temp = temp || (tempSettings[key]!=settings[key])});
+    Object.keys(tempSettings).forEach((key) => {
+      //var disp = settingDisplay.find((element) => element.title == key);
+      //alert(disp);
+      temp = temp ||
+            (tempSettings[key]!=settings[key]) /**||
+            (settingDisplay.find((element) => element.setting ?? element.title == key).type == 'num-input' &&
+              (tempSettings[key].toString() == "" ||
+              ((settingDisplay.find((element) => element.setting ?? element.title == key).valid[0] && tempSettings[key] < settingDisplay.find((element) => element.setting ?? element.title == key).valid[1]) || (settingDisplay.find((element) => element.setting ?? element.title == key).valid[2] && tempSettings[key] > settingDisplay.find((element) => element.setting ?? element.title == key).valid[3]))));
+      //alert(key+": "+(tempSettings[key].toString() == ""))**/
+    });
     setTempEdit(temp);
   }, [ tempSettings ]);
 
   const settingDisplay = [
 		{title: 'Music Detection', data:
-			[{setting: "refresh", title: 'refresh rate', type: 'num-input', detail: "How often the glasses will take a new clip to detect a change in the song (seconds)."},
-			]},
+			[{setting: "refresh", title: 'refresh rate', type: 'num-input', valid: [false, 0, false, 0], detail: "How often the glasses will take a new clip to detect a change in the song (seconds)."},
+       {setting: "scrollRate", title: 'scroll rate', type: 'num-input', valid: [true, 1, false, 0], detail: "The speed at which the onscreen lyrics will advance through the song. (minimum 1)"},
+      ]},
 		{title: 'Display', data:
-			[{setting: 'textSize', title: 'large text', type: 'checkbox', detail: 'Increases the size of the text displayed on the glasses.'},
+			[{setting: 'textSize', title: 'font size', type: 'num-input', valid: [true, 1, true, 30], detail: 'Increases the size of the text displayed on the glasses. (number from 1 to 30)'},
+       {setting: 'orientation', title: 'vertical', type: 'checkbox', detail: 'changes the output orientation onto the screen from horizontal to vertical.'},
 			]},
 		{title: 'Other', data:
 			[{setting: "lowPow", title: 'low power mode', type: 'checkbox', detail: 'Reduces certain functionalities in order to save battery.'},
@@ -53,7 +65,7 @@ const Settings = () => {
 								{item.type == 'checkbox' ? <TouchableOpacity activeOpacity={0.6} onPressOut={() => {setTempSettings({...tempSettings, [item.setting ?? item.title]: !tempSettings[item.setting ?? item.title]})}}><Feather style={styles.settingIcon} name={tempSettings[item.setting ?? item.title] == false ? "square" : "check-square"}/></TouchableOpacity> : <></>}
 							</View>
 							
-							{item.type == 'num-input' ? <View style={{flex: 0.6}}><TextInput value={`${tempSettings[item.setting ?? item.title]}`} onChangeText={(text) => {setTempSettings({...tempSettings, [item.setting ?? item.title]: text})}} maxLength={6} keyboardAppearance={tempSettings.darkMode ? "dark" : "light"} inputMode='decimal' style={styles.numInput}></TextInput></View> : <></>}
+							{item.type == 'num-input' ? <View style={{flex: 0.6, flexDirection: "row", gap: 15, alignItems: "center",}}><TextInput value={`${tempSettings[item.setting ?? item.title]}`} onChangeText={(text) => {setTempSettings({...tempSettings, [item.setting ?? item.title]: text})}} maxLength={6} keyboardAppearance={tempSettings.darkMode ? "dark" : "light"} inputMode='decimal' style={styles.numInput}></TextInput><Text style={{...styles.settingText, fontSize: 10}}>{tempSettings[item.setting ?? item.title].toString() == "" && ((item.valid[0] ? tempSettings[item.setting ?? item.title] < item.valid[1] : false) || (item.valid[2] ? tempSettings[item.setting ?? item.title] > item.valid[3] : false)) ? "Invalid input!" : ""}</Text></View> : <></>}
 							
 						</View>
 						{showDetail == item.title ? <Text style={styles.text}>{item.detail}</Text> : <></>}
@@ -72,8 +84,8 @@ const Settings = () => {
 				<View style={{}}>
 					<Text style={{...styles.headerText, marginBottom: 14,}}>SETTINGS</Text>
           <View style={{...styles.sectionBox, marginBottom: 5, marginTop: 0,}}>
-					<TouchableOpacity disabled={!tempEdit} onPress={() => {setSettings(tempSettings);}}><Feather name="save" style={tempEdit ? styles.icon : {...styles.icon, opacity: 0.4}}/></TouchableOpacity>
-					<TouchableOpacity disabled={!tempEdit} onPress={() => {setTempSettings(settings);}}><Feather name="refresh-cw" style={tempEdit ? styles.icon : {...styles.icon, opacity: 0.4}}/></TouchableOpacity>
+					<TouchableOpacity disabled={!tempEdit} onPress={() => {setSettings(tempSettings); setTempEdit(false);}}><Feather name="save" style={tempEdit ? styles.icon : {...styles.icon, opacity: 0.4}}/></TouchableOpacity>
+					<TouchableOpacity disabled={!tempEdit} onPress={() => {/**updateTempSettings();**/ setTempSettings(settings); setTempEdit(false);}}><Feather name="refresh-cw" style={tempEdit ? styles.icon : {...styles.icon, opacity: 0.4}}/></TouchableOpacity>
 				</View>
 				</View>
 			}
