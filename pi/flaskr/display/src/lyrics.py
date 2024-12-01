@@ -91,6 +91,7 @@ def findSongAndLyrics():
         return {
             'artist': track['subtitle'],
             'title': track['title'],
+            'lyrics': lyrics,
             'songFound': True
         }
 
