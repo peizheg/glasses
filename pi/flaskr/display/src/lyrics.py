@@ -4,7 +4,7 @@ import lyricsgenius
 import pyaudio
 import wave
 import time
-from display import scroll_text
+from flaskr.display.src.display import scroll_text
 
 
 # Audio parameters
@@ -86,7 +86,7 @@ def findSongAndLyrics():
         lyrics = fetch_lyrics_with_timestamps(track['title'], track['subtitle'])
         if lyrics:
             start_time = time.time() - out['timestamp'] / 1000  # Adjust for Shazam timestamp
-            display_lyrics_with_timestamps_oled(lyrics, start_time, True)
+            display_lyrics_with_timestamps(lyrics, start_time)
         else:
             print("Lyrics with timestamps not found.")
         
