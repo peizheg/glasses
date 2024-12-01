@@ -37,17 +37,21 @@ def display_lyrics_with_timestamps(lyrics, start_time):
     """
     Synchronizes and displays the lyrics with timestamps.
     """
+    print('start:', start_time)
+    prev_time = start_time
     for line in lyrics:
         timestamp = line['seconds']
         text = line['lyrics']
-        current_time = time.time() - start_time
 
         # Wait until the correct time to display the lyric
-        if timestamp > current_time:
-            time.sleep(timestamp - current_time)
+        if (timestamp - prev_time < 0):
+            print('>', text)
+            continue
         
-        print(text)  # Display the lyric
+        print('>', text)  # Display the lyric
         show_text(text, True)
+        time.sleep(timestamp - prev_time - 0.65)
+        prev_time = timestamp
 
 
 def findSongAndLyrics():
@@ -85,7 +89,7 @@ def findSongAndLyrics():
         lyrics = fetch_lyrics_with_timestamps(track['title'], track['subtitle'])
         if lyrics:
             start_time = time.time() - out['timestamp'] / 1000  # Adjust for Shazam timestamp
-            display_lyrics_with_timestamps(lyrics, start_time)
+            display_lyrics_with_timestamps(lyrics, out['matches'][0]['offset'] + seconds - 0.5)
         else:
             print("Lyrics with timestamps not found.")
         
