@@ -33,25 +33,21 @@ def fetch_lyrics_with_timestamps(title, artist):
         return lyrics
     return None
 
-# def display_lyrics_with_timestamps(lyrics, start_time):
-#     """
-#     Synchronizes and displays the lyrics with timestamps.
-#     """
-#     print('start:', start_time)
-#     prev_time = start_time
-#     for line in lyrics:
-#         timestamp = line['seconds']
-#         text = line['lyrics']
-
-#         # Wait until the correct time to display the lyric
-#         if (timestamp - prev_time < 0):
-#             print('>', text)
-#             continue
-        
-#         print('>', text)  # Display the lyric
-#         show_text(text, True)
-#         time.sleep(timestamp - prev_time - 0.65)
-#         prev_time = timestamp
+def hyphenate_words(line, max_length = 7):
+    """
+    Hyphenates words in a line of lyrics if they exceed the maximum length.
+    """
+    words = line.split()
+    hyphenated_line = ""
+    for word in words:
+        if len(word) > max_length:
+            hyphenated_word = ""
+            for i in range(0, len(word), max_length):
+                hyphenated_word += word[i:i + max_length] + "-\n"
+            hyphenated_line += hyphenated_word[:-1] + " "
+        else:
+            hyphenated_line += word + " "
+    return hyphenated_line
 
 def display_lyrics_with_timestamps(lyrics, start_time):
     """
@@ -63,10 +59,12 @@ def display_lyrics_with_timestamps(lyrics, start_time):
     for i, line in enumerate(lyrics):
         timestamp = line['seconds']
         current_text = line['lyrics']
+        current_text = hyphenate_words(current_text)
         if i + 1 < len(lyrics):
-            next_text = lyrics[i + 1]['lyrics']
+            next_text = "\n" + lyrics[i + 1]['lyrics'] # new line between current and next lyrics
         else:
             next_text = ""
+        next_text = hyphenate_words(next_text)
 
         # Wait until the correct time to display the lyric
         if timestamp - prev_time < 0:
