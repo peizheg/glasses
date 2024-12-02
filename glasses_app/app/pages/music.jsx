@@ -1,21 +1,30 @@
 import { StyleSheet, Text, TouchableOpacity, View, FlatList } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient'
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import glassesServices from "../services/glasses";
 
 const Music = ({ song, setSong }) => {
 	const [line, setLine] = useState(0);
+	const flatRef = useRef(0);
+
 	useEffect(() => {
 		const getSong = async () => {
 			const songResponse = await glassesServices.get_song()
 			setSong({ ...songResponse })
 		}
 		getSong()
-	}, [])
+
+		const interval = setInterval(() => {
+			flatRef.current?.scrollToIndex({animated: true, index: line});
+			setLine(line+1);
+		}, song.lyrics[line].seconds);
+
+		return () => clearInterval(interval);
+	}, [line]);
 
 	return (
 		<View style={styles.container}>
-			{(song.title) ? (
+			{(true) ? (
 				<FlatList
 					ListHeaderComponent={
 						<LinearGradient colors={[styles.container.backgroundColor, 'rgba(48,41,42,0)']} start={{ x: 0.5, y: 0.1 }} end={{ x: 0.5, y: 1 }} style={{height: 90}}>
@@ -30,6 +39,7 @@ const Music = ({ song, setSong }) => {
 						song.lyrics.split('\n')
 					}
 					style={{marginBottom: 60}}
+					ref={flatRef}
 				/>
 			) : (
 				<View style={{justifyContent: "center", alignItems: "center", flex: 1}}>
