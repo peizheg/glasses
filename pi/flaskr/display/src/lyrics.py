@@ -1,6 +1,6 @@
 import requests
 
-import lyricsgenius
+import threading
 import pyaudio
 import wave
 import time
@@ -115,8 +115,9 @@ def findSongAndLyrics():
         # Fetch lyrics with timestamps
         lyrics = fetch_lyrics_with_timestamps(track['title'], track['subtitle'])
         if lyrics:
-            start_time = time.time() - out['timestamp'] / 1000  # Adjust for Shazam timestamp
-            display_lyrics_with_timestamps(lyrics, out['matches'][0]['offset'] + seconds)
+            t = threading.Thread(target=display_lyrics_with_timestamps, args=[lyrics, out['matches'][0]['offset'] + seconds])
+            t.setDaemon(False)
+            t.start()
         else:
             print("Lyrics with timestamps not found.")
         
