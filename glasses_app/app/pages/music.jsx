@@ -10,7 +10,7 @@ const Music = ({ song, setSong }) => {
 
 	const changeLine = async (index) => {
 		setLine(index)
-		await glassesServices.change_lyrics(song.lyrics.split('\n').slice(index + 1).join("\n"))
+		await glassesServices.change_lyrics(song.lyrics.map(line => line.lyrics).slice(index + 1).join("\n"))
 	}
 
 	const find_song = async () => {
@@ -45,7 +45,7 @@ const Music = ({ song, setSong }) => {
 						</TouchableOpacity>
 					)}
 					data={
-						song.lyrics.split('\n').slice(1)
+						song.lyrics.map(line => line.lyrics)
 					}
 					style={{marginBottom: 60}}
 					ref={flatRef}

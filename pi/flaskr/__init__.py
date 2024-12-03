@@ -23,7 +23,7 @@ def create_app():
     @app.get('/get_song')
     def get_song():
         response = findSongAndLyrics()
-        
+
         t = threading.Thread(target=write_song, args=[response["lyrics"]])
         t.setDaemon(False)
         t.start()
